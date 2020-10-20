@@ -3,6 +3,7 @@ package cryptow
 import (
 	"bytes"
 	"crypto/hmac"
+	"crypto/rand"
 	"crypto/sha1"
 	"encoding/base32"
 	"encoding/binary"
@@ -12,9 +13,12 @@ import (
 
 type OTPSecret string
 
-func NewOTPSecret() OTPSecret {
-	b, _ := RandBytesString(128, 32) //base 32 used because without slashes
-	return OTPSecret(b)
+func NewOTPSecret() (OTPSecret, error) {
+	secret := make([]byte, 128)
+	if _, err := rand.Read(secret); err != nil {
+		return "", err
+	}
+	return OTPSecret(base32.StdEncoding.EncodeToString(secret)), nil //base 32 used because without slashes
 }
 
 func prefix0(otp string) string {

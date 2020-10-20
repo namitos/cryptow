@@ -9,7 +9,7 @@ import (
 type APISecret string
 
 func NewAPISecret() APISecret {
-	b, _ := RandBytesString(128, 64)
+	b, _ := RandBytesString(128, "base64")
 	return APISecret(b)
 }
 

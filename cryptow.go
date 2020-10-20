@@ -5,7 +5,6 @@ import (
 	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/base32"
-	"encoding/base64"
 	"encoding/hex"
 )
 
@@ -19,13 +18,16 @@ func Sha512String(in string) string {
 	return hex.EncodeToString(sum[:])
 }
 
-func RandBytesString(size, base int) (string, error) {
+func RandBytesString(size int, base string) (string, error) {
 	token := make([]byte, size)
 	if _, err := rand.Read(token); err != nil {
 		return "", err
 	}
-	if base == 32 {
+	if base == "base64" {
 		return base32.StdEncoding.EncodeToString(token), nil
 	}
-	return base64.StdEncoding.EncodeToString(token), nil
+	if base == "base32" {
+		return base32.StdEncoding.EncodeToString(token), nil
+	}
+	return hex.EncodeToString(token), nil
 }
