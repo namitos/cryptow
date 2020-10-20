@@ -8,9 +8,12 @@ import (
 
 type APISecret string
 
-func NewAPISecret() APISecret {
-	b, _ := RandBytesString(128, "base64")
-	return APISecret(b)
+func NewAPISecret() (APISecret, error) {
+	b, err := RandBytesString(128, "base64")
+	if err != nil {
+		return "", err
+	}
+	return APISecret(b), nil
 }
 
 func (as APISecret) GetSign(message []byte) ([]byte, error) {
