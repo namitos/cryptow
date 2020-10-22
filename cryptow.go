@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/base32"
+	"encoding/base64"
 	"encoding/hex"
 )
 
@@ -24,7 +25,7 @@ func RandBytesString(size int, base string) (string, error) {
 		return "", err
 	}
 	if base == "base64" {
-		return base32.StdEncoding.EncodeToString(token), nil
+		return base64.StdEncoding.EncodeToString(token), nil
 	}
 	if base == "base32" {
 		return base32.StdEncoding.EncodeToString(token), nil
