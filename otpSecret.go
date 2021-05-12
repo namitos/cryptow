@@ -18,7 +18,7 @@ func NewOTPSecret() (OTPSecret, error) {
 	if _, err := rand.Read(secret); err != nil {
 		return "", err
 	}
-	return OTPSecret(base32.StdEncoding.EncodeToString(secret)), nil //base 32 used because without slashes
+	return OTPSecret(strings.ReplaceAll(base32.StdEncoding.EncodeToString(secret), "=", "")), nil //base 32 used because without slashes
 }
 
 func prefix0(otp string) string {
