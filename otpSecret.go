@@ -14,7 +14,7 @@ import (
 type OTPSecret string
 
 func NewOTPSecret() (OTPSecret, error) {
-	secret := make([]byte, 128)
+	secret := make([]byte, 256)
 	if _, err := rand.Read(secret); err != nil {
 		return "", err
 	}
