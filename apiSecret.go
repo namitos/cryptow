@@ -22,14 +22,14 @@ func (as APISecret) GetSign(message []byte) ([]byte, error) {
 	return mac.Sum(nil), nil
 }
 
-func (as APISecret) ValidateMessage(sign []byte, message []byte) (bool, error) {
+func (as APISecret) ValidateMessage(sign []byte, message []byte) error {
 	expectedSign, err := as.GetSign(message)
 	if err != nil {
-		return false, err
+		return err
 	}
 	equal := hmac.Equal(sign, expectedSign)
 	if equal {
-		return true, nil
+		return nil
 	}
-	return false, fmt.Errorf("wrong sign")
+	return fmt.Errorf("wrong sign")
 }
